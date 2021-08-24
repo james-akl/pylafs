@@ -1,5 +1,5 @@
 # Linear Algebra from Scratch — using Python
-**pylafs** implements l
+**pylafs** implements common elements from linear algebra in Python.
 
 ## Project description
 This project is meant to be a dojo for both linear algebra and Python programming.
