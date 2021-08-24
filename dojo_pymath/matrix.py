@@ -78,11 +78,14 @@ class Matrix:
         #TODO: dimension check
         if self.dim() == matrix.dim():
             n_row, n_col = self.dim()
-            ret = Matrix(*self.dim())
+            rows = []
+            col = []
             for i in range(n_row):
                 for j in range(n_col):
-                    ret._vals[i][j] = self(i,j) + matrix(i,j)
-            return ret
+                    col.append(self(i,j) + matrix(i,j))
+                rows.append(col)
+                col = []
+            return Matrix(*self.dim(),rows)
 
         else:
             print("ERROR: Dimensions must match.")
