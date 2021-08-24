@@ -16,16 +16,34 @@ class Matrix:
     _dim = None
     _vals = None
 
-    def __init__(self, n_row, n_col, vals = None):
-        if vals == None:
-            # Default behavior: create a zero matrix
+#NEW CONSTRUCTOR
+    def __init__(self, *args):
+        success = True
+        if len(args) == 1 and type(args[0]) == str:
+            rows = args[0].split(sep=';')
+            vals = []
+            for k in range(len(rows)):
+                vals.append(list(map(int, rows[k].split())))
+            n_row = len(vals)
+            n_col = len(vals[0])
+        elif len(args) == 2 and type(args[0]) == int and type(args[1]) == int:
+            # Create a zero matrix
+            n_row, n_col = args[0], args[1]
             vals = [[0] * n_col for _ in range(n_row)]
+        elif len(args) == 1 and type(args[0]) == list:
+            vals = args[0]
+            n_row = len(vals)
+            n_col = len(vals[0])
+        elif len(args) == 3 and type(args[0]) == int and type(args[1]) == int and type(args[2]) == list:
+            n_row, n_col, vals = args[0], args[1], args[2]
         else:
+            print("ERROR: Invalid input")
+            success = False
             # Validate data dimensions and data types
+        if success:
             self.validate_data(n_row, n_col, vals)
-
-        self._dim = (n_row, n_col)
-        self._vals = vals
+            self._dim = (n_row, n_col)
+            self._vals = vals
 
     def validate_data(self, n_row, n_col, vals):
         try:
@@ -71,25 +89,39 @@ class Matrix:
     def __call__(self, i, j):
         return self._vals[i][j]
 
-    def __add__(self, matrix):
-        #TODO: dimension check
-        if self.dim() == matrix.dim():
+    #Override binary addition operator "+"
+    def __add__(self, summand):
+        # Matrix-Scalar addition
+        if type(summand) == int or type(summand) == float:
             ret = Matrix(*self.dim())
             for i in range(self.dim(0)):
                 for j in range(self.dim(1)):
-                    ret._vals[i][j] = self(i,j) + matrix(i,j)
+                    ret._vals[i][j] = self(i,j) + summand
             return ret
 
+        # Matrix-Matrix addition
+        elif type(summand) == Matrix:
+            if self.dim() == summand.dim():
+                ret = Matrix(*self.dim())
+                for i in range(self.dim(0)):
+                    for j in range(self.dim(1)):
+                        ret._vals[i][j] = self(i,j) + summand(i,j)
+                return ret
+            else:
+                print("ERROR: Dimensions must match.")
+                #sys.exit(1)
         else:
-            print("ERROR: Dimensions must match.")
-            #sys.exit(1)
+            print("ERROR: Summand must be either scalar or matrix of same dimension.")
+            raise ValueError()
 
+    #Override unary negation operator "-"
     def __neg__(self):
         for i in range(self.dim(0)):
             for j in range(self.dim(1)):
                 self._vals[i][j] *= -1
         return self
 
+    #Override binary substraction operator "-"
     def __sub__(self, matrix):
         return self + (-matrix)
 
