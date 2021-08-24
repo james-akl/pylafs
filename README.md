@@ -13,7 +13,7 @@ From [Wikipedia](https://en.wikipedia.org/wiki/Dojo):
 3. Tailor for training, education, and demonstration.
 
 ### pylafs does NOT:
-1. Optimize for high-performance computing; this is a solved problem and there are countless tools for that.
+1. Optimize for high-performance computing; this is a solved problem and there are many existing tools for that.
 2. Provide theoretical or practical novelty; refer to [these resources](https://www.win.tue.nl/~hochsten/journals.html) for novel contributions to the field.
 
 ## Project rules
