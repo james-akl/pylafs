@@ -17,7 +17,7 @@ From [Wikipedia](https://en.wikipedia.org/wiki/Dojo):
 2. Provide theoretical or practical novelty; refer to [these resources](https://www.win.tue.nl/~hochsten/journals.html) for novel contributions to the field.
 
 ## Project rules
-1. Implement are restricted **minimal Python**—_i.e._, avoid libraries at all costs.
+1. Restrict implementations to **minimal Python**—_i.e._, avoid libraries at all costs.
 2. Do **NOT** reuse **any** code from existing mathematics and algorithms libraries.
 3. Libraries peripheral to the objective (_e.g._, GUI) are acceptable. 
 4. Focus on quality, refactoring, and documentation.
