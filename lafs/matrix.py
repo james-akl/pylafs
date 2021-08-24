@@ -7,14 +7,10 @@ def dim(matrix, k = None):
 def identity(n, n_col = None):
     if n_col == None:
         n_col = n
-    rows = []
-    col = []
-    for i in range(n):
-        for j in range(n_col):
-            col.append(int(i == j))
-        rows.append(col)
-        col = []
-    return Matrix(n, n_col, rows)
+    ret = Matrix(n, n_col)
+    for i in range(min(n, n_col)):
+        ret._vals[i][i] = 1
+    return ret
 
 class Matrix:
     _dim = None
@@ -22,7 +18,8 @@ class Matrix:
 
     def __init__(self, n_row, n_col, vals = None):
         if vals == None:
-            vals = n_row * [n_col * [0]]
+            # Default behavior: create a zero matrix
+            vals = [[0] * n_col for _ in range(n_row)]
         else:
             # Validate data dimensions and data types
             self.validate_data(n_row, n_col, vals)
@@ -77,15 +74,11 @@ class Matrix:
     def __add__(self, matrix):
         #TODO: dimension check
         if self.dim() == matrix.dim():
-            n_row, n_col = self.dim()
-            rows = []
-            col = []
-            for i in range(n_row):
-                for j in range(n_col):
-                    col.append(self(i,j) + matrix(i,j))
-                rows.append(col)
-                col = []
-            return Matrix(*self.dim(),rows)
+            ret = Matrix(*self.dim())
+            for i in range(self.dim(0)):
+                for j in range(self.dim(1)):
+                    ret._vals[i][j] = self(i,j) + matrix(i,j)
+            return ret
 
         else:
             print("ERROR: Dimensions must match.")

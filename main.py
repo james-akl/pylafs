@@ -6,7 +6,8 @@ def main():
     # mat = Matrix(1, 2, [[1, 2]])
 
     print(mat)
-    print(mat + mat.identity())
+    print(mat + mat)
+    # print(Matrix(3,3).identity())
 
 if __name__ == "__main__":
     main()
