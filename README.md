@@ -1,4 +1,4 @@
-# Linear Algebra from Scratch — using Python
+# Linear Algebra from Scratch
 **pylafs** implements common elements from linear algebra in Python.
 
 ## Project description
