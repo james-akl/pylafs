@@ -1,10 +1,12 @@
 import sys
 
+# Returns the dimension 
 def dim(matrix, k = None):
     #TODO: Add type checking
     return matrix.dim(k)
 
-def identity(n, n_col = None):
+# Returns an Identity Matrix of dimensions (n, n_col)
+def I(n, n_col = None):
     if n_col == None:
         n_col = n
     ret = Matrix(n, n_col)
@@ -12,11 +14,36 @@ def identity(n, n_col = None):
         ret._vals[i][i] = 1
     return ret
 
+# Returns an Ones Matrix of dimensions (n, n_col)
+def U(n, n_col = None):
+    if n_col == None:
+        n_col = n
+    ret = Matrix(n, n_col)
+    for i in range(n):
+        for j in range(n_col):
+            ret._vals[i][j] = 1
+    return ret
+
+# Returns an Zeros Matrix of dimensions (n, n_col)
+def Z(n, n_col = None):
+    if n_col == None:
+        n_col = n
+    ret = Matrix(n, n_col)
+    for i in range(n):
+        for j in range(n_col):
+            ret._vals[i][j] = 0
+    return ret
+
+def is_square():
+    pass
+
+
+
 class Matrix:
     _dim = None
     _vals = None
 
-#NEW CONSTRUCTOR
+    #TODO: Refactor __init__
     def __init__(self, *args):
         success = True
         if len(args) == 1 and type(args[0]) == str:
@@ -45,6 +72,7 @@ class Matrix:
             self._dim = (n_row, n_col)
             self._vals = vals
 
+    #TODO: Refactor __init__
     def validate_data(self, n_row, n_col, vals):
         try:
             value_error = False
@@ -69,6 +97,7 @@ class Matrix:
             raise
             sys.exit(1)
 
+    #TODO: Refactor __repr__
     def __repr__(self):
         ret = ""
         col_width = self.dim(1) * [1]
@@ -86,10 +115,13 @@ class Matrix:
             ret += "\b\b\b\b]\n"
         return ret
 
+    #TODO: Refactor __call__
     def __call__(self, i, j):
         return self._vals[i][j]
 
-    #Override binary addition operator "+"
+    #### TODO: REMOVE SCALAR SUPPORT; NOT MATHEMATICALLY DEFINED. ####
+
+    # Defines matrix-scalar and matrix-matrix left-addition:  <matrix> + <scalar|matrix>
     def __add__(self, summand):
         # Matrix-Scalar addition
         if type(summand) == int or type(summand) == float:
@@ -114,25 +146,35 @@ class Matrix:
             print("ERROR: Summand must be either scalar or matrix of same dimension.")
             raise ValueError()
 
-    #Override unary negation operator "-"
+    # Defines scalar-matrix right-addition: <scalar> + <matrix>
+    def __radd__(self, summand):
+        return self + summand
+
+    # Defines matrix negation: -<matrix>
     def __neg__(self):
         for i in range(self.dim(0)):
             for j in range(self.dim(1)):
                 self._vals[i][j] *= -1
         return self
 
-    #Override binary substraction operator "-"
-    def __sub__(self, matrix):
-        return self + (-matrix)
+    # Defines matrix-matrix and matrix-scalar subtraction <matrix> - <scalar|matrix>
+    def __sub__(self, subtrahend):
+        return self + (-subtrahend)
 
+    # Defines matrix-matrix and scalar-matrix subtraction <scalar> - <matrix>
+    def __rsub__(self, minuend):
+        return minuend + (-self)
+
+    #TODO: Describe self.dim
     def dim(self, k = None):
         if k == None:
             return self._dim
         else:
             return self._dim[k]
 
+    # Returns identity matrix of the same dimensions.
     def identity(self):
-        return identity(self.dim(0), self.dim(1))
+        return I(self.dim(0), self.dim(1))
 
 if __name__ == "__main__":
     pass

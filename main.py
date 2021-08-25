@@ -1,4 +1,4 @@
-from lafs.matrix import Matrix, dim, identity
+from lafs.matrix import Matrix, dim, I
 
 def main():
     data = [[1, 2, 4, 5], [2,4,2,1], [3,-2,-3,-1], [4,111,231,12]]
