@@ -1,65 +1,7 @@
-import sys, itertools
+from lafs import *
+# import sys
 
 #TODO: Expand functionality to complex numbers
-#TODO: Maybe implement an 'ans' system
-# ans = 0
-
-# Function ideas:
-# lowertriangular, extracts lower triangular portion
-# uppertrianguglar, similar but upper
-# transforms in the same spirit
-
-# Returns the dimension
-def dim(matrix, k = None):
-    if type(matrix) == Matrix:
-        return matrix.dim(k)
-    elif type(matrix) == int or type(matrix) == float:
-        return 1
-    else:
-        print("ERROR: Input dimension not defined.")
-
-# Returns the transpose
-def transpose(matrix):
-    if type(matrix) == Matrix:
-        return matrix.T()
-    elif type(matrix) == int or type(matrix) == float:
-        return matrix
-    else:
-        print("ERROR: Input transpose not defined.")
-
-# Returns an Identity Matrix of dimensions (n, n_col)
-def I(n, n_col = None):
-    if n_col == None:
-        n_col = n
-    ret = Matrix(n, n_col)
-    for i in range(min(n, n_col)):
-        ret._vals[i][i] = 1
-    return ret
-
-# Returns an Ones Matrix of dimensions (n, n_col)
-def U(n, n_col = None):
-    if n_col == None:
-        n_col = n
-    ret = Matrix(n, n_col)
-    for i in range(n):
-        for j in range(n_col):
-            ret._vals[i][j] = 1
-    return ret
-
-# Returns an Zeros Matrix of dimensions (n, n_col)
-def Z(n, n_col = None):
-    if n_col == None:
-        n_col = n
-    ret = Matrix(n, n_col)
-    for i in range(n):
-        for j in range(n_col):
-            ret._vals[i][j] = 0
-    return ret
-
-def is_square():
-    pass
-
-
 class Matrix:
     _dim = None
     _vals = None
