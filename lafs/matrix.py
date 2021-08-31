@@ -1,9 +1,31 @@
-import sys
+import sys, itertools
 
-# Returns the dimension 
+#TODO: Expand functionality to complex numbers
+#TODO: Maybe implement an 'ans' system
+# ans = 0
+
+# Function ideas:
+# lowertriangular, extracts lower triangular portion
+# uppertrianguglar, similar but upper
+# transforms in the same spirit
+
+# Returns the dimension
 def dim(matrix, k = None):
-    #TODO: Add type checking
-    return matrix.dim(k)
+    if type(matrix) == Matrix:
+        return matrix.dim(k)
+    elif type(matrix) == int or type(matrix) == float:
+        return 1
+    else:
+        print("ERROR: Input dimension not defined.")
+
+# Returns the transpose
+def transpose(matrix):
+    if type(matrix) == Matrix:
+        return matrix.T()
+    elif type(matrix) == int or type(matrix) == float:
+        return matrix
+    else:
+        print("ERROR: Input transpose not defined.")
 
 # Returns an Identity Matrix of dimensions (n, n_col)
 def I(n, n_col = None):
@@ -36,7 +58,6 @@ def Z(n, n_col = None):
 
 def is_square():
     pass
-
 
 
 class Matrix:
@@ -113,6 +134,7 @@ class Matrix:
                 space_pad = " " * ( col_width[j] - len(str(self._vals[i][j])) )
                 ret += space_pad + str(self._vals[i][j]) + "     "
             ret += "\b\b\b\b]\n"
+
         return ret
 
     #TODO: Refactor __call__
@@ -140,7 +162,7 @@ class Matrix:
                         ret._vals[i][j] = self(i,j) + summand(i,j)
                 return ret
             else:
-                print("ERROR: Dimensions must match.")
+                print("ERROR: Matrix dimensions must match for addition.")
                 #sys.exit(1)
         else:
             print("ERROR: Summand must be either scalar or matrix of same dimension.")
@@ -165,6 +187,32 @@ class Matrix:
     def __rsub__(self, minuend):
         return minuend + (-self)
 
+    # Defines matrix-scalar and matrix-matrix left-multplication:  <matrix> * <scalar|matrix>
+    def __mul__(self, multiplicand):
+        # Matrix-Scalar multiplication
+        if type(multiplicand) == int or type(multiplicand) == float:
+            ret = Matrix(*self.dim())
+            for i in range(self.dim(0)):
+                for j in range(self.dim(1)):
+                    ret._vals[i][j] = self(i,j) * multiplicand
+            return ret
+
+        # Matrix-Matrix multiplication
+        elif type(multiplicand) == Matrix:
+            if self.dim(1) == multiplicand.dim(0):
+                ret = Matrix(self.dim(0), multiplicand.dim(1))
+                for i in range(self.dim(0)):
+                    for j in range(multiplicand.dim(1)):
+                        for k in range(self.dim(1)):
+                            ret._vals[i][j] += self(i,k) * multiplicand(k, j)
+                return ret
+            else:
+                print("ERROR: Incorrect matrix dimensions for matrix multiplication.")
+
+    # Defines scalar-matrix right-multplication:  <scalar> * <matrix>
+    def __rmul__(self, multiplier):
+       return self * multiplier
+
     #TODO: Describe self.dim
     def dim(self, k = None):
         if k == None:
@@ -175,6 +223,14 @@ class Matrix:
     # Returns identity matrix of the same dimensions.
     def identity(self):
         return I(self.dim(0), self.dim(1))
+
+    # Returns matrix transpose.
+    def T(self):
+        ret = Matrix(self.dim(1), self.dim(0))
+        for i in range(self.dim(0)):
+            for j in range(self.dim(1)):
+                ret._vals[j][i] = self._vals[i][j]
+        return ret
 
 if __name__ == "__main__":
     pass
