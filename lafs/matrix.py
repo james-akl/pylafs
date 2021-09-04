@@ -96,7 +96,7 @@ class Matrix:
                         ret._vals[i][j] = self(i,j) + summand(i,j)
                 return ret
             else:
-                print("ERROR: Matrix dimensions must match for addition.")
+                raise ValueError("Matrix dimensions must match for addition.")
                 #sys.exit(1)
 
         # # Matrix-Scalar addition
@@ -109,8 +109,7 @@ class Matrix:
         #     return ret
 
         else:
-            print("ERROR: Summand must be matrix of same dimension.")
-            raise ValueError()
+            raise ValueError("Summand must be matrix of same dimension.")
 
     # Handles scalar-matrix right-addition: <scalar> + <matrix>
     def __radd__(self, summand):
@@ -180,6 +179,22 @@ class Matrix:
             ret *= self
         return ret
 
+    # Defines array-wise/Hadamard multiplication: <matrix> @ <matrix>
+    def __matmul__(self, multiplicand):
+        if type(multiplicand) == Matrix:
+            if self.dim() == multiplicand.dim():
+                ret = Matrix(*self.dim())
+                for i in range(self.dim(0)):
+                    for j in range(self.dim(1)):
+                        ret._vals[i][j] = self(i,j) * multiplicand(i,j)
+                return ret
+            else:
+                raise ValueError("Matrix dimensions must match for addition.")
+                #sys.exit(1)
+
+        else:
+            raise ValueError("ERROR: multiplicand must be matrix of same dimension.")
+
     #TODO: Describe self.dim
     def dim(self, k = None):
         if k == None:
@@ -201,6 +216,13 @@ class Matrix:
             for j in range(self.dim(1)):
                 ret._vals[j][i] = self._vals[i][j]
         return ret
+
+    # Swaps rows in-place.
+    def swap_rows(self, r1, r2):
+        row = self._vals[r1]
+        self._vals[r1] = self._vals[r2]
+        self._vals[r2] = row
+
 
 if __name__ == "__main__":
     pass
