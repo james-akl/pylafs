@@ -85,18 +85,10 @@ class Matrix:
 
     #### TODO: REMOVE SCALAR SUPPORT; NOT MATHEMATICALLY DEFINED. ####
 
-    # Defines matrix-scalar and matrix-matrix left-addition:  <matrix> + <scalar|matrix>
+    # Defines matrix-matrix addition:  <matrix> + <matrix>
     def __add__(self, summand):
-        # Matrix-Scalar addition
-        if type(summand) == int or type(summand) == float:
-            ret = Matrix(*self.dim())
-            for i in range(self.dim(0)):
-                for j in range(self.dim(1)):
-                    ret._vals[i][j] = self(i,j) + summand
-            return ret
-
         # Matrix-Matrix addition
-        elif type(summand) == Matrix:
+        if type(summand) == Matrix:
             if self.dim() == summand.dim():
                 ret = Matrix(*self.dim())
                 for i in range(self.dim(0)):
@@ -106,11 +98,21 @@ class Matrix:
             else:
                 print("ERROR: Matrix dimensions must match for addition.")
                 #sys.exit(1)
+
+        # # Matrix-Scalar addition
+        # elif type(summand) == int or type(summand) == float:
+        #     print
+        #     ret = Matrix(*self.dim())
+        #     for i in range(self.dim(0)):
+        #         for j in range(self.dim(1)):
+        #             ret._vals[i][j] = self(i,j) + summand
+        #     return ret
+
         else:
-            print("ERROR: Summand must be either scalar or matrix of same dimension.")
+            print("ERROR: Summand must be matrix of same dimension.")
             raise ValueError()
 
-    # Defines scalar-matrix right-addition: <scalar> + <matrix>
+    # Handles scalar-matrix right-addition: <scalar> + <matrix>
     def __radd__(self, summand):
         return self + summand
 
@@ -153,7 +155,30 @@ class Matrix:
 
     # Defines scalar-matrix right-multplication:  <scalar> * <matrix>
     def __rmul__(self, multiplier):
-       return self * multiplier
+       return self * multiplier   
+
+    # Defines equality: <matrix> == <right>
+    def __eq__(self, right):
+        if type(right) == Matrix:
+            if self.dim() == right.dim():
+                for i in range(self.dim(0)):
+                    for j in range(self.dim(1)):
+                        if self(i,j) != right(i,j):
+                            return False
+                return True
+        return False
+
+    # Defines matrix power: <matrix> ** <int>
+    #TODO: Implement negative integers
+    def __pow__(self, n):
+        if type(n) != int:
+            raise ValueError("Exponent must be an integer.")
+        if n < 0:
+            raise ValueError("Not yet implemented for negative integers.")
+        ret = self.identity()   
+        for k in range(n):
+            ret *= self
+        return ret
 
     #TODO: Describe self.dim
     def dim(self, k = None):
@@ -164,7 +189,10 @@ class Matrix:
 
     # Returns identity matrix of the same dimensions.
     def identity(self):
-        return I(self.dim(0), self.dim(1))
+        ret = Matrix(self.dim(0), self.dim(1))
+        for i in range(min(self.dim(0), self.dim(1))):
+            ret._vals[i][i] = 1
+        return ret
 
     # Returns matrix transpose.
     def T(self):
