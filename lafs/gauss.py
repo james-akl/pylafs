@@ -2,7 +2,7 @@ import copy
 from lafs.matrix import *
 
 # UNRELIABLE; RE-IMPLEMENT EVERYTHING.
-
+# IMPLEMENT CHECKS FOR RANK/SINGULARITY & SQUARE MATRICES
 
 def ref(matrix):
     ret = copy.deepcopy(matrix)

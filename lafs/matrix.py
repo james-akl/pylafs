@@ -1,4 +1,5 @@
 from lafs import *
+import copy
 # import sys
 
 #TODO: Expand functionality to complex numbers
@@ -223,6 +224,13 @@ class Matrix:
         self._vals[r1] = self._vals[r2]
         self._vals[r2] = row
 
+    #TEMPORARY;
+    def r(self, d):
+        ret = copy.deepcopy(self)
+        for i in range(ret.dim(0)):
+            for j in range(ret.dim(1)):
+                ret._vals[i][j] = round(ret(i,j), d)
+        return ret
 
 if __name__ == "__main__":
     pass
