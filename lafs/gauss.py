@@ -1,5 +1,7 @@
 import copy
-from lafs.matrix import *
+# from lafs.matrix import *
+# from lafs.matrix_functions import *
+# from lafs.matrix_generators import *
 
 # UNRELIABLE; RE-IMPLEMENT EVERYTHING.
 # IMPLEMENT CHECKS FOR RANK/SINGULARITY & SQUARE MATRICES
@@ -89,3 +91,9 @@ def inv(matrix):
                     ret1._vals[l][j] -= factor * ret1(r,j)
         lead += 1
     return ret1
+
+def rank(matrix):
+    return sum([x[0] != 0 for x in diag(rref(matrix))._vals])
+
+def nullity(matrix):
+    return min(dim(matrix)) - rank(matrix)

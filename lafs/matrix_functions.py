@@ -1,4 +1,9 @@
 from lafs import *
+# from lafs.matrix import *
+# from lafs.matrix_functions import *
+# from lafs.matrix_generators import *
+# from lafs.gauss import *
+
 
 #TODO: Maybe implement an 'ans' system
 # ans = 0
@@ -50,8 +55,8 @@ def total(matrix):
 
 def diag(matrix):
     diag = []
-    if type(matrix) == Matrix:
-        for k in range(max(matrix.dim(0), matrix.dim(1))):
+    if type(matrix) == Matrix or type(matrix) == Vector:
+        for k in range(min(matrix.dim(0), matrix.dim(1))):
            diag.append([matrix._vals[k][k]])
         ret = Matrix(diag)
         return ret
@@ -65,3 +70,11 @@ def is_symmetric(matrix):
     if type(matrix) != Matrix:
         raise ValueError("Input must be a Matrix")
     return matrix.T() == matrix
+
+from lafs.matrix_generators import *
+from lafs.gauss import *
+
+def is_singular(matrix):
+    if type(matrix) != Matrix:
+        raise ValueError("Input must be a Matrix")
+    return rank(matrix) < min(dim(matrix))

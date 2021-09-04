@@ -232,5 +232,16 @@ class Matrix:
                 ret._vals[i][j] = round(ret(i,j), d)
         return ret
 
+    #REFACTOR
+    def sub(self, r1, r2, c1, c2):
+        return Matrix([mat[c1:(c2 + 1)] for mat in self._vals[r1:(r2 + 1)]])
+
+    #REFACTOR
+    def inner(self, matrix):
+        ret = (self.T() * matrix)
+        if self.dim(1) == 1:
+           return ret(0,0)
+        return ret
+
 if __name__ == "__main__":
     pass
