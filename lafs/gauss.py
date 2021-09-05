@@ -91,10 +91,10 @@ def inv(matrix):
     return ret
 
 def rank(matrix):
-    return sum([x[0] != 0 for x in lafs.matrix_generators.diag(rref(matrix))()])
+    return sum([x[0] != 0 for x in lafs.matrix_functions.diag(rref(matrix))()])
 
 def nullity(matrix):
-    return min(lafs.matrix_function.dim(matrix)) - rank(matrix)
+    return min(lafs.matrix_functions.dim(matrix)) - rank(matrix)
 
 def linsolve(A, b):
     return lafs.gauss.inv(A) * b
