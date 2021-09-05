@@ -1,4 +1,3 @@
-from typing import NewType
 import lafs
 import copy
 # import sys
