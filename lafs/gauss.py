@@ -1,7 +1,5 @@
 import copy
-# from lafs.matrix import *
-# from lafs.matrix_functions import *
-# from lafs.matrix_generators import *
+import lafs
 
 # UNRELIABLE; RE-IMPLEMENT EVERYTHING.
 # IMPLEMENT CHECKS FOR RANK/SINGULARITY & SQUARE MATRICES
@@ -21,10 +19,10 @@ def ref(matrix):
             print(ret)
             for i in range(k_row + 1, ret.dim(0)):
                 factor = ret(i, k_col) / ret(k_row, k_col)
-                ret._vals[i][k_col] = 0
+                ret[i][k_col] = 0
 
                 for j in range(k_col + 1, ret.dim(1)):
-                    ret._vals[i][j] = ret(i, j) - ret(k_row, j) * factor
+                    ret[i][j] = ret(i, j) - ret(k_row, j) * factor
             k_row += 1
             k_col += 1
     return ret
@@ -49,51 +47,54 @@ def rref(matrix):
             ret.swap_rows(i, r)
         div = ret(r, lead)
         for j in range(ret.dim(1)):
-            ret._vals[r][j] /= div
+            ret[r][j] /= div
         for l in range(n_row):
             if l != r:
                 factor = ret(l, lead)
                 for j in range(ret.dim(1)):
-                    ret._vals[l][j] -= factor * ret(r,j)
+                    ret[l][j] -= factor * ret(r,j)
         lead += 1
     return ret
 
 def inv(matrix):
-    ret = copy.deepcopy(matrix)
-    ret1 = copy.deepcopy(ret.identity())
+    base_matrix = copy.deepcopy(matrix)
+    ret = copy.deepcopy(matrix.identity())
 
     lead = 0
-    n_row = ret.dim(0)
-    n_col = ret.dim(1)
+    n_row = base_matrix.dim(0)
+    n_col = base_matrix.dim(1)
     for r in range(n_row):
         if lead == n_col:
-            return ret1
+            return ret
         i = r
-        while ret(i, lead) == 0:
+        while base_matrix(i, lead) == 0:
             i += 1
             if i == n_row:
                 i = r
                 lead += 1
                 if lead == n_col:
-                    return ret1
+                    return ret
         if i != r:
+            base_matrix.swap_rows(i, r)
             ret.swap_rows(i, r)
-            ret1.swap_rows(i, r)
-        div = ret(r, lead)
-        for j in range(ret.dim(1)):
-            ret._vals[r][j] /= div
-            ret1._vals[r][j] /= div
+        div = base_matrix(r, lead)
+        for j in range(base_matrix.dim(1)):
+            base_matrix[r][j] /= div
+            ret[r][j] /= div
         for l in range(n_row):
             if l != r:
-                factor = ret(l, lead)
-                for j in range(ret.dim(1)):
-                    ret._vals[l][j] -= factor * ret(r,j)
-                    ret1._vals[l][j] -= factor * ret1(r,j)
+                factor = base_matrix(l, lead)
+                for j in range(base_matrix.dim(1)):
+                    base_matrix[l][j] -= factor * base_matrix(r,j)
+                    ret[l][j] -= factor * ret(r,j)
         lead += 1
-    return ret1
+    return ret
 
 def rank(matrix):
-    return sum([x[0] != 0 for x in diag(rref(matrix))._vals])
+    return sum([x[0] != 0 for x in lafs.matrix_generators.diag(rref(matrix))()])
 
 def nullity(matrix):
-    return min(dim(matrix)) - rank(matrix)
+    return min(lafs.matrix_function.dim(matrix)) - rank(matrix)
+
+def linsolve(A, b):
+    return lafs.gauss.inv(A) * b

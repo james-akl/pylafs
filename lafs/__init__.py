@@ -1,3 +1,5 @@
+unit_angle = 'deg'
+
 from lafs.matrix import *
 from lafs.vector import *
 from lafs.matrix_functions import *
