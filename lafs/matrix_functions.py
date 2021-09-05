@@ -73,3 +73,6 @@ def is_singular(matrix):
     if type(matrix) != lafs.matrix.Matrix:
         raise ValueError("Input must be a Matrix")
     return rank(matrix) < min(dim(matrix))
+
+if __name__ == "__main__":
+    pass

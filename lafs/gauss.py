@@ -98,3 +98,6 @@ def nullity(matrix):
 
 def linsolve(A, b):
     return lafs.gauss.inv(A) * b
+
+if __name__ == "__main__":
+    pass

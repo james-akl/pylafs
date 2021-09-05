@@ -105,3 +105,6 @@ def Rx(t):
                    [0, math.cos(t), -math.sin(t)],
                    [0, math.sin(t),  math.cos(t)]
                   ])
+
+if __name__ == "__main__":
+    pass

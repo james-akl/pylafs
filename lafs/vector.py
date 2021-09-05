@@ -23,3 +23,6 @@ def Vec(args):
         # Validate data dimensions and data types
     if success:
         return lafs.matrix.Matrix(n_row, n_col, vals)
+
+if __name__ == "__main__":
+    pass
