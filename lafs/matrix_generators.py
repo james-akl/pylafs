@@ -79,7 +79,9 @@ def randv(n):
         rows.append(random.randint(-10, 10))
     return lafs.vector.Vec(rows)
 
+# Returns rotation matrix about the third axis of angle t.
 def Rz(t):
+    # Assumes default angle unit is in degrees.
     if lafs.unit_angle != 'rad':
         t *= math.pi/180
     return lafs.matrix.Matrix([
@@ -88,7 +90,9 @@ def Rz(t):
                    [           0,           0, 1]
                   ])
 
+# Returns rotation matrix about the second axis of angle t.
 def Ry(t):
+    # Assumes default angle unit is in degrees.
     if lafs.unit_angle != 'rad':
         t *= math.pi/180
     return lafs.matrix.Matrix([
@@ -97,7 +101,9 @@ def Ry(t):
                    [-math.sin(t), 0, math.cos(t)]
                   ])
 
+# Returns rotation matrix about the first axis of angle t.
 def Rx(t):
+    # Assumes default angle unit is in degrees.
     if lafs.unit_angle != 'rad':
         t *= math.pi/180
     return lafs.matrix.Matrix([

@@ -4,13 +4,12 @@ import copy
 
 #TODO: replace some ValueError with TypeError
 
+# Shorthand constructor
 def Mat(*args):
     return Matrix(*args)
 
 #TODO: Expand functionality to complex numbers
 class Matrix:
-    #TODO: Make member attributes private using "__"
-    #TODO: Implement accessor/mutator methods
     __dim = None
     __rowlist = None # Replace with __rows
 
@@ -106,9 +105,10 @@ class Matrix:
             return self[i]
         return self.__rowlist
 
+    # Accessor: "A[i][j]" returns the element at row i and column j.
     def __getitem__(self, row):
         return self.__rowlist[row]
-
+    # Mutator: "A[i][j] = a" sets to value at row i and column j to the value of a.
     def __setitem__(self, row, new_value):
         if type(new_value) != list or len(new_value) != self.dim(0):
             raise TypeError("Input must be list of same length as matrix row.")
@@ -186,6 +186,10 @@ class Matrix:
     def __rmul__(self, multiplier):
        return self * multiplier   
 
+    # Defines matrix-scalar left-division: <matrix> / <scalar>
+    def __truediv__(self, divisor):
+        return self * (1 / divisor)
+
     # Defines equality: <matrix> == <right>
     def __eq__(self, right):
         if type(right) == Matrix:
@@ -198,7 +202,6 @@ class Matrix:
         return False
 
     # Defines matrix power: <matrix> ** <int>
-    #TODO: Implement negative integers
     def __pow__(self, n):
         if type(n) != int:
             raise ValueError("Exponent must be an integer.")
@@ -226,7 +229,7 @@ class Matrix:
         else:
             raise ValueError("ERROR: multiplicand must be matrix of same dimension.")
 
-    #TODO: Describe self.dim
+    # Returns the Matrix dimension in a tuple (n_row, n_col), or a specific dimension as an int.
     def dim(self, k = None):
         if k == None:
             return self.__dim
