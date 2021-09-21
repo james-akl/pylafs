@@ -1,6 +1,5 @@
 import lafs
 import copy
-# import sys
 
 #TODO: replace some ValueError with TypeError
 
@@ -53,6 +52,7 @@ class Matrix:
         self.__dim = (n_row, n_col)
         self.__rowlist = vals #Replace with __rows
 
+    # Validates dimensional correctness of data, raises errors otherwise.
     def validate_data(self, n_row, n_col, vals):
         try:
             value_error = False
@@ -74,9 +74,7 @@ class Matrix:
                 raise ValueError("Matrix and data dimensions do not match.")
 
         except ValueError:
-            print("ERROR: Input data is invalid.")
-            raise
-            sys.exit(1)
+            raise ValueError("Input data is invalid.")
 
     #TODO: Refactor __repr__
     def __repr__(self):
@@ -108,6 +106,7 @@ class Matrix:
     # Accessor: "A[i][j]" returns the element at row i and column j.
     def __getitem__(self, row):
         return self.__rowlist[row]
+
     # Mutator: "A[i][j] = a" sets to value at row i and column j to the value of a.
     def __setitem__(self, row, new_value):
         if type(new_value) != list or len(new_value) != self.dim(0):
@@ -257,7 +256,7 @@ class Matrix:
         self[r1] = self[r2]
         self[r2] = row
 
-    #TEMPORARY;
+    #TEMPORARY; ROUNDING FUNCTION
     def r(self, d):
         ret = copy.deepcopy(self)
         for i in range(ret.dim(0)):
@@ -265,11 +264,11 @@ class Matrix:
                 ret[i][j] = round(ret(i,j), d)
         return ret
 
-    #REFACTOR
+    #REFACTOR; SUBMATRIX
     def sub(self, r1, r2, c1, c2):
         return Matrix([mat[c1:(c2 + 1)] for mat in self[r1:(r2 + 1)]])
 
-    #REFACTOR
+    #REFACTOR; INNER PRODUCT
     def inner(self, matrix):
         ret = (self.T() * matrix)
         if self.dim(1) == 1:

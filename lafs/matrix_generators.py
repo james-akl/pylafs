@@ -73,6 +73,7 @@ def randm(n_row, n_col=None):
         rows.append(row)
     return lafs.matrix.Matrix(rows)
 
+# Temporary function for vector generation.
 def randv(n):
     rows = []
     for i in range(n):

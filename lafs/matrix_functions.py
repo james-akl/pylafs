@@ -1,9 +1,8 @@
 import lafs
 
-#TODO: Maybe implement an 'ans' system
-#exists: Python's "_"
+# The "ANS" system is Python's "_" in the interpreter.
 
-# Returns the dimension
+# Returns the dimension of the input matrix.
 def dim(matrix, k = None):
     if type(matrix) == lafs.matrix.Matrix:
         return matrix.dim(k)
@@ -12,7 +11,7 @@ def dim(matrix, k = None):
     else:
         print("ERROR: Input dimension not defined.")
 
-# Returns the transpose
+# Returns the transpose of the input matrix.
 def transpose(matrix):
     if type(matrix) == lafs.matrix.Matrix:
         return matrix.T()
@@ -21,7 +20,7 @@ def transpose(matrix):
     else:
         print("ERROR: Input transpose not defined.")
 
-# Returns the trace of a square matrix
+# Returns the trace of the input square matrix.
 def trace(matrix):
     if type(matrix) == lafs.matrix.Matrix:
         if matrix.dim(0) == matrix.dim(1):
@@ -36,6 +35,7 @@ def trace(matrix):
     else:
         print("ERROR: Input trace not defined.")
 
+# Returns the sum total of all input matrix elements.
 def total(matrix):
     if type(matrix) == lafs.matrix.Matrix:
         ret = 0
@@ -48,6 +48,7 @@ def total(matrix):
     else:
         print("ERROR: Input total not defined.")
 
+# Returns vector of the input matrix diagonal elements.
 def diag(matrix):
     diag = []
     if type(matrix) == lafs.matrix.Matrix or type(matrix) == lafs.vector.Vector:
@@ -66,13 +67,37 @@ def is_symmetric(matrix):
         raise ValueError("Input must be a Matrix")
     return matrix.T() == matrix
 
-from lafs.matrix_generators import *
-from lafs.gauss import *
-
+# Returns boolean of singularity test.
 def is_singular(matrix):
     if type(matrix) != lafs.matrix.Matrix:
         raise ValueError("Input must be a Matrix")
-    return rank(matrix) < min(dim(matrix))
+    return lafs.gauss.rank(matrix) < min(dim(matrix))
+
+# Returns boolean of invertibility test.
+def is_invertible(matrix):
+    return not is_singular(matrix)
+
+def is_square():
+    pass
+
+def is_upper():
+    pass
+
+def is_lower():
+    pass
+
+def is_matrix():
+    pass
+
+def is_vector():
+    pass
+
+def is_colvector():
+    pass
+
+def is_rowvector():
+    pass
+
 
 if __name__ == "__main__":
     pass

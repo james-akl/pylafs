@@ -4,6 +4,7 @@ import lafs
 # UNRELIABLE; RE-IMPLEMENT EVERYTHING.
 # IMPLEMENT CHECKS FOR RANK/SINGULARITY & SQUARE MATRICES
 
+# Returns a row echelon form of the input matrix.
 def ref(matrix):
     ret = copy.deepcopy(matrix)
     k_row, k_col = 0, 0
@@ -27,6 +28,7 @@ def ref(matrix):
             k_col += 1
     return ret
 
+# Returns the reduced row echelon form of the input matrix.
 def rref(matrix):
     ret = copy.deepcopy(matrix)
     lead = 0
@@ -56,6 +58,7 @@ def rref(matrix):
         lead += 1
     return ret
 
+# Returns the direct inverse via Gaussian elimination of the input matrix.
 def inv(matrix):
     base_matrix = copy.deepcopy(matrix)
     ret = copy.deepcopy(matrix.identity())
@@ -90,12 +93,15 @@ def inv(matrix):
         lead += 1
     return ret
 
+# Returns the rank of the input matrix.
 def rank(matrix):
     return sum([x[0] != 0 for x in lafs.matrix_functions.diag(rref(matrix))()])
 
+# Returns the nullity of the input matrix.
 def nullity(matrix):
     return min(lafs.matrix_functions.dim(matrix)) - rank(matrix)
 
+# Returns the solution "x" of the linear system "A * x = b".
 def linsolve(A, b):
     return lafs.gauss.inv(A) * b
 
