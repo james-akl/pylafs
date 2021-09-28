@@ -1,4 +1,6 @@
+from lafs.matrix import Matrix
 import lafs
+import copy
 
 # The "ANS" system is Python's "_" in the interpreter.
 
@@ -61,42 +63,107 @@ def diag(matrix):
     else:
         print("ERROR: Input diag not defined.")
 
+#TODO: DOCUMENT
+def det(matrix):
+    ret = 1
+    if is_triangular(matrix):
+        for k in range(matrix.dim(0)):
+            ret *= matrix[k][k]
+        return ret
+
+    else:
+        ref = copy.deepcopy(matrix)
+        k_row, k_col = 0, 0
+        while k_row < ref.dim(0) and k_col < ref.dim(0):
+
+            col_abs = [abs(ref(k, k_col)) for k in range(k_row, ref.dim(0))]
+            i_max = k_row + col_abs.index(max(col_abs))
+
+            if ref(i_max, k_col) == 0:
+                k_col += 1
+            else:
+                ref.swap_rows(k_row, i_max)
+                ret *= -1
+                for i in range(k_row + 1, ref.dim(0)):
+                    factor = ref(i, k_col) / ref(k_row, k_col)
+                    ref[i][k_col] = 0
+
+                    for j in range(k_col + 1, ref.dim(1)):
+                        ref[i][j] = ref(i, j) - ref(k_row, j) * factor
+                k_row += 1
+                k_col += 1
+        ret *= det(ref)
+        return round(ret, 5)
+
 # Returns boolean of symmetry test.
 def is_symmetric(matrix):
-    if type(matrix) != lafs.matrix.Matrix:
-        raise ValueError("Input must be a Matrix")
+    if not is_square(matrix):
+        raise ValueError("Input matrix must be square.")
     return matrix.T() == matrix
 
 # Returns boolean of singularity test.
 def is_singular(matrix):
-    if type(matrix) != lafs.matrix.Matrix:
-        raise ValueError("Input must be a Matrix")
+    if not is_square(matrix):
+        raise ValueError("Input matrix must be square.")
     return lafs.gauss.rank(matrix) < min(dim(matrix))
 
 # Returns boolean of invertibility test.
 def is_invertible(matrix):
     return not is_singular(matrix)
 
-def is_square():
-    pass
+#TODO: DOCUMENT
+def is_square(matrix):
+    if not is_matrix(matrix):
+        raise ValueError("Input must be a matrix.")
+    return matrix.dim(0) == matrix.dim(1)
 
-def is_upper():
-    pass
+#TODO: DOCUMENT
+def is_upper(matrix):
+    if not is_square(matrix):
+        raise ValueError("Input matrix must be square.")
+    ret = True
+    for i in range(1, matrix.dim(0)):
+        for j in range(i):
+            ret = ret and matrix[i][j] == 0
+    return ret
 
-def is_lower():
-    pass
+#TODO: DOCUMENT
+def is_lower(matrix):
+    if not is_square(matrix):
+        raise ValueError("Input matrix must be square.")
+    ret = True
+    for i in range(0, matrix.dim(0) - 1):
+        for j in range(i + 1, matrix.dim(1)):
+            ret = ret and matrix[i][j] == 0
+    return ret
 
-def is_matrix():
-    pass
+#TODO: DOCUMENT
+def is_triangular(matrix):
+    if not is_square(matrix):
+        raise ValueError("Input matrix must be square.")
+    return is_upper(matrix) or is_lower(matrix)
 
-def is_vector():
-    pass
+#TODO: DOCUMENT
+def is_diag(matrix):
+    if not is_square(matrix):
+        raise ValueError("Input matrix must be square.")
+    return is_upper(matrix) and is_lower(matrix)
 
-def is_colvector():
-    pass
+#TODO: DOCUMENT
+def is_matrix(matrix):
+    return type(matrix) == lafs.Matrix
 
-def is_rowvector():
-    pass
+#TODO: DOCUMENT
+def is_vector(matrix):
+    return is_colvector(matrix) or is_rowvector(matrix)
+
+#TODO: DOCUMENT
+def is_colvector(matrix):
+    return matrix.dim(1) == 1
+
+#TODO: DOCUMENT
+def is_rowvector(matrix):
+    return matrix.dim(0) == 1
 
 
 if __name__ == "__main__":

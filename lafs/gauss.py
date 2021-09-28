@@ -1,4 +1,5 @@
 import copy
+from lafs.matrix_functions import is_singular, is_square
 import lafs
 
 # UNRELIABLE; RE-IMPLEMENT EVERYTHING.
@@ -17,7 +18,6 @@ def ref(matrix):
             k_col += 1
         else:
             ret.swap_rows(k_row, i_max)
-            print(ret)
             for i in range(k_row + 1, ret.dim(0)):
                 factor = ret(i, k_col) / ret(k_row, k_col)
                 ret[i][k_col] = 0
@@ -60,6 +60,9 @@ def rref(matrix):
 
 # Returns the direct inverse via Gaussian elimination of the input matrix.
 def inv(matrix):
+    if is_singular(matrix):
+        raise ValueError("Input matrix must be invertible.")
+
     base_matrix = copy.deepcopy(matrix)
     ret = copy.deepcopy(matrix.identity())
 
