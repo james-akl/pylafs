@@ -72,28 +72,30 @@ def det(matrix):
         return ret
 
     else:
-        ref = copy.deepcopy(matrix)
-        k_row, k_col = 0, 0
-        while k_row < ref.dim(0) and k_col < ref.dim(0):
+        pass
+        # ref = copy.deepcopy(matrix)
+        # k_row, k_col = 0, 0
+        # while k_row < ref.dim(0) and k_col < ref.dim(0):
 
-            col_abs = [abs(ref(k, k_col)) for k in range(k_row, ref.dim(0))]
-            i_max = k_row + col_abs.index(max(col_abs))
+        #     col_abs = [abs(ref(k, k_col)) for k in range(k_row, ref.dim(0))]
+        #     i_max = k_row + col_abs.index(max(col_abs))
 
-            if ref(i_max, k_col) == 0:
-                k_col += 1
-            else:
-                ref.swap_rows(k_row, i_max)
-                ret *= -1
-                for i in range(k_row + 1, ref.dim(0)):
-                    factor = ref(i, k_col) / ref(k_row, k_col)
-                    ref[i][k_col] = 0
+        #     if ref(i_max, k_col) == 0:
+        #         k_col += 1
+        #     else:
+        #         ref.swap_rows(k_row, i_max)
+        #         ret *= -1
 
-                    for j in range(k_col + 1, ref.dim(1)):
-                        ref[i][j] = ref(i, j) - ref(k_row, j) * factor
-                k_row += 1
-                k_col += 1
-        ret *= det(ref)
-        return round(ret, 5)
+        #         for i in range(k_row + 1, ref.dim(0)):
+        #             factor = ref(i, k_col) / ref(k_row, k_col)
+        #             ref[i][k_col] = 0
+
+        #             for j in range(k_col + 1, ref.dim(1)):
+        #                 ref[i][j] = ref(i, j) - ref(k_row, j) * factor
+        #         k_row += 1
+        #         k_col += 1
+        # ret *= det(ref)
+        # return round(ret, 5)
 
 # Returns boolean of symmetry test.
 def is_symmetric(matrix):
