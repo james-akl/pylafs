@@ -18,7 +18,7 @@ def Vec(args):
         n_row = len(vals)
         n_col = 1
     else:
-        print("ERROR: Invalid input")
+        raise TypeError("ERROR: Invalid input")
         success = False
         # Validate data dimensions and data types
     if success:

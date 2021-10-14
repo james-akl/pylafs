@@ -11,7 +11,7 @@ def dim(matrix, k = None):
     elif type(matrix) == int or type(matrix) == float:
         return 1
     else:
-        print("ERROR: Input dimension not defined.")
+        raise ValueError("ERROR: Input dimension not defined.")
 
 # Returns the transpose of the input matrix.
 def transpose(matrix):
@@ -20,7 +20,7 @@ def transpose(matrix):
     elif type(matrix) == int or type(matrix) == float:
         return matrix
     else:
-        print("ERROR: Input transpose not defined.")
+        raise ValueError("ERROR: Input transpose not defined.")
 
 # Returns the trace of the input square matrix.
 def trace(matrix):
@@ -31,11 +31,11 @@ def trace(matrix):
                 ret += matrix[k][k]
             return ret
         else:
-            print("ERROR: Matrix must be square for trace.")
+            raise ValueError("ERROR: Matrix must be square for trace.")
     elif type(matrix) == int or type(matrix) == float:
         return matrix
     else:
-        print("ERROR: Input trace not defined.")
+        raise ValueError("ERROR: Input trace not defined.")
 
 # Returns the sum total of all input matrix elements.
 def total(matrix):
@@ -48,7 +48,7 @@ def total(matrix):
     elif type(matrix) == int or type(matrix) == float:
         return matrix
     else:
-        print("ERROR: Input total not defined.")
+        raise ValueError("ERROR: Input total not defined.")
 
 # Returns vector of the input matrix diagonal elements.
 def diag(matrix):
@@ -61,9 +61,9 @@ def diag(matrix):
     elif type(matrix) == int or type(matrix) == float:
         return lafs.matrix.Matrix([[matrix]])
     else:
-        print("ERROR: Input diag not defined.")
+        raise ValueError("ERROR: Input diag not defined.")
 
-#TODO: DOCUMENT
+# Returns the determinant of the input matrix.
 def det(matrix):
     ret = 1
     if is_triangular(matrix):
@@ -72,30 +72,8 @@ def det(matrix):
         return ret
 
     else:
-        pass
-        # ref = copy.deepcopy(matrix)
-        # k_row, k_col = 0, 0
-        # while k_row < ref.dim(0) and k_col < ref.dim(0):
-
-        #     col_abs = [abs(ref(k, k_col)) for k in range(k_row, ref.dim(0))]
-        #     i_max = k_row + col_abs.index(max(col_abs))
-
-        #     if ref(i_max, k_col) == 0:
-        #         k_col += 1
-        #     else:
-        #         ref.swap_rows(k_row, i_max)
-        #         ret *= -1
-
-        #         for i in range(k_row + 1, ref.dim(0)):
-        #             factor = ref(i, k_col) / ref(k_row, k_col)
-        #             ref[i][k_col] = 0
-
-        #             for j in range(k_col + 1, ref.dim(1)):
-        #                 ref[i][j] = ref(i, j) - ref(k_row, j) * factor
-        #         k_row += 1
-        #         k_col += 1
-        # ret *= det(ref)
-        # return round(ret, 5)
+        [L, U] = lafs.decomps.lu(matrix)
+        return det(L) * det(U)
 
 # Returns boolean of symmetry test.
 def is_symmetric(matrix):
@@ -113,13 +91,13 @@ def is_singular(matrix):
 def is_invertible(matrix):
     return not is_singular(matrix)
 
-#TODO: DOCUMENT
+# Returns boolean of square matrix test.
 def is_square(matrix):
     if not is_matrix(matrix):
         raise ValueError("Input must be a matrix.")
     return matrix.dim(0) == matrix.dim(1)
 
-#TODO: DOCUMENT
+# Returns boolean of upper triangular matrix test.
 def is_upper(matrix):
     if not is_square(matrix):
         raise ValueError("Input matrix must be square.")
@@ -129,7 +107,7 @@ def is_upper(matrix):
             ret = ret and matrix[i][j] == 0
     return ret
 
-#TODO: DOCUMENT
+# Returns boolean of lower  triangular matrix test.
 def is_lower(matrix):
     if not is_square(matrix):
         raise ValueError("Input matrix must be square.")
@@ -139,34 +117,33 @@ def is_lower(matrix):
             ret = ret and matrix[i][j] == 0
     return ret
 
-#TODO: DOCUMENT
+# Returns boolean of triangular matrix test.
 def is_triangular(matrix):
     if not is_square(matrix):
         raise ValueError("Input matrix must be square.")
     return is_upper(matrix) or is_lower(matrix)
 
-#TODO: DOCUMENT
+# Returns boolean of diagonal matrix test.
 def is_diag(matrix):
     if not is_square(matrix):
         raise ValueError("Input matrix must be square.")
     return is_upper(matrix) and is_lower(matrix)
 
-#TODO: DOCUMENT
+# Returns True if input type is the lafs.Matrix class.
 def is_matrix(matrix):
     return type(matrix) == lafs.Matrix
 
-#TODO: DOCUMENT
+# Returns True if input is a vector.
 def is_vector(matrix):
     return is_colvector(matrix) or is_rowvector(matrix)
 
-#TODO: DOCUMENT
+# Returns True if input is a column vector.
 def is_colvector(matrix):
     return matrix.dim(1) == 1
 
-#TODO: DOCUMENT
+# Returns True if input is a row vector.
 def is_rowvector(matrix):
     return matrix.dim(0) == 1
-
 
 if __name__ == "__main__":
     pass

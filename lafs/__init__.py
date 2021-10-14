@@ -5,3 +5,4 @@ from lafs.vector import *
 from lafs.matrix_functions import *
 from lafs.matrix_generators import *
 from lafs.gauss import *
+from lafs.decomps import *

@@ -2,7 +2,6 @@ import copy
 from lafs.matrix_functions import is_singular, is_square
 import lafs
 
-# UNRELIABLE; RE-IMPLEMENT EVERYTHING.
 # IMPLEMENT CHECKS FOR RANK/SINGULARITY & SQUARE MATRICES
 
 # Returns a row echelon form of the input matrix.

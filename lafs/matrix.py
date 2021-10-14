@@ -256,19 +256,19 @@ class Matrix:
         self[r1] = self[r2]
         self[r2] = row
 
-    #TEMPORARY; ROUNDING FUNCTION
-    def r(self, d):
+    # Returns a rounded copy of the input matrix.
+    def r(self, d=4):
         ret = copy.deepcopy(self)
         for i in range(ret.dim(0)):
             for j in range(ret.dim(1)):
                 ret[i][j] = round(ret(i,j), d)
         return ret
 
-    #REFACTOR; SUBMATRIX
+    #TODO: REFACTOR; SUBMATRIX
     def sub(self, r1, r2, c1, c2):
         return Matrix([mat[c1:(c2 + 1)] for mat in self[r1:(r2 + 1)]])
 
-    #REFACTOR; INNER PRODUCT
+    #TODO: REFACTOR; INNER PRODUCT
     def inner(self, matrix):
         ret = (self.T() * matrix)
         if self.dim(1) == 1:
