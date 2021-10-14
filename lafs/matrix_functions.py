@@ -72,8 +72,11 @@ def det(matrix):
         return ret
 
     else:
-        [L, U] = lafs.decomps.lu(matrix)
-        return det(L) * det(U)
+        try:
+            [L, U] = lafs.decomps.lu(matrix)
+            return det(L) * det(U)
+        except ZeroDivisionError:
+            return 0
 
 # Returns boolean of symmetry test.
 def is_symmetric(matrix):
