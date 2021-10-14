@@ -1,5 +1,6 @@
 # Linear Algebra from Scratch
-**PyLAFS** implements common elements from linear algebra in Python. It can also run as a convenient matrix computation tool in the Python interpreter. 
+**PyLAFS** implements common elements from linear algebra in Python.
+<br>It can also run in the Python interpreter as a convenient matrix computation tool. 
 ### PyLAFS is a package that:
 1. Implements common constructs and algorithms from linear algebra.
 2. Runs in the interpreter as a convenience matrix calculator.
