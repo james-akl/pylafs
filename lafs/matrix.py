@@ -19,7 +19,7 @@ class Matrix:
             rows = args[0].split(sep=';')
             vals = []
             for k in range(len(rows)):
-                vals.append(list(map(int, rows[k].split())))
+                vals.append(list(map(float, rows[k].split())))
             n_row = len(vals)
             n_col = len(vals[0])
 
