@@ -7,7 +7,6 @@ import copy
 def Mat(*args):
     return Matrix(*args)
 
-#TODO: Expand functionality to complex numbers
 class Matrix:
     __dim = None
     __rowlist = None # Replace with __rows
