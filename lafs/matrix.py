@@ -3,13 +3,14 @@ import copy
 
 #TODO: replace some ValueError with TypeError
 
-# Shorthand constructor
 def Mat(*args):
+    """
+    Shorthand constructor
+    """
     return Matrix(*args)
 
 class Matrix:
     __dim = None
-    __rowlist = None # Replace with __rows
 
     def __init__(self, *args):
 
@@ -49,10 +50,12 @@ class Matrix:
         # Validate data dimensions and data types.
         self.validate_data(n_row, n_col, vals)
         self.__dim = (n_row, n_col)
-        self.__rowlist = vals #Replace with __rows
+        self.__rows = vals
 
-    # Validates dimensional correctness of data, raises errors otherwise.
     def validate_data(self, n_row, n_col, vals):
+        """
+        Validates dimensional correctness of data, raises errors otherwise.
+        """
         try:
             value_error = False
 
@@ -100,20 +103,26 @@ class Matrix:
             return self[i][j]
         if i != None:
             return self[i]
-        return self.__rowlist
+        return self.__rows
 
-    # Accessor: "A[i][j]" returns the element at row i and column j.
     def __getitem__(self, row):
-        return self.__rowlist[row]
+        """
+        Accessor: "A[i][j]" returns the element at row i and column j.
+        """
+        return self.__rows[row]
 
-    # Mutator: "A[i][j] = a" sets to value at row i and column j to the value of a.
     def __setitem__(self, row, new_value):
+        """
+        Mutator: "A[i][j] = a" sets to value at row i and column j to the value of a.
+        """
         if type(new_value) != list or len(new_value) != self.dim(0):
             raise TypeError("Input must be list of same length as matrix row.")
-        self.__rowlist[row] = new_value
+        self.__rows[row] = new_value
 
-    # Defines matrix-matrix addition:  <matrix> + <matrix>
     def __add__(self, summand):
+        """
+        Defines matrix-matrix addition:  <matrix> + <matrix>
+        """
         # Matrix-Matrix addition
         if type(summand) == Matrix:
             if self.dim() == summand.dim():
@@ -139,27 +148,37 @@ class Matrix:
         else:
             raise ValueError("Summand must be matrix of same dimension.")
 
-    # Handles scalar-matrix right-addition: <scalar> + <matrix>
     def __radd__(self, summand):
+        """
+        Handles scalar-matrix right-addition: <scalar> + <matrix>
+        """
         return self + summand
 
-    # Defines matrix negation: -<matrix>
     def __neg__(self):
+        """
+        Defines matrix negation: -<matrix>
+        """
         for i in range(self.dim(0)):
             for j in range(self.dim(1)):
                 self[i][j] *= -1
         return self
 
-    # Defines matrix-matrix and matrix-scalar subtraction <matrix> - <scalar|matrix>
     def __sub__(self, subtrahend):
+        """
+        Defines matrix-matrix and matrix-scalar subtraction <matrix> - <scalar|matrix>
+        """
         return self + (-subtrahend)
 
-    # Defines matrix-matrix and scalar-matrix subtraction <scalar> - <matrix>
     def __rsub__(self, minuend):
+        """
+        Defines matrix-matrix and scalar-matrix subtraction <scalar> - <matrix>
+        """
         return minuend + (-self)
 
-    # Defines matrix-scalar and matrix-matrix left-multplication:  <matrix> * <scalar|matrix>
     def __mul__(self, multiplicand):
+        """
+        Defines matrix-scalar and matrix-matrix left-multplication:  <matrix> * <scalar|matrix>
+        """
         # Matrix-Scalar multiplication
         if type(multiplicand) == int or type(multiplicand) == float:
             ret = Matrix(*self.dim())
@@ -180,16 +199,22 @@ class Matrix:
             else:
                 print("ERROR: Incorrect matrix dimensions for matrix multiplication.")
 
-    # Defines scalar-matrix right-multplication:  <scalar> * <matrix>
     def __rmul__(self, multiplier):
-       return self * multiplier   
+        """
+        Defines scalar-matrix right-multplication:  <scalar> * <matrix>
+        """
+        return self * multiplier   
 
-    # Defines matrix-scalar left-division: <matrix> / <scalar>
     def __truediv__(self, divisor):
+        """
+        Defines matrix-scalar left-division: <matrix> / <scalar>
+        """
         return self * (1 / divisor)
 
-    # Defines equality: <matrix> == <right>
     def __eq__(self, right):
+        """
+        Defines equality: <matrix> == <right>
+        """
         if type(right) == Matrix:
             if self.dim() == right.dim():
                 for i in range(self.dim(0)):
@@ -199,8 +224,10 @@ class Matrix:
                 return True
         return False
 
-    # Defines matrix power: <matrix> ** <int>
     def __pow__(self, n):
+        """
+        Defines matrix power: <matrix> ** <int>
+        """
         if type(n) != int:
             raise ValueError("Exponent must be an integer.")
         if self.dim(0) != self.dim(1):
@@ -211,8 +238,10 @@ class Matrix:
             ret *= multiplicand
         return ret
 
-    # Defines array-wise/Hadamard multiplication: <matrix> @ <matrix>
     def __matmul__(self, multiplicand):
+        """
+        Defines array-wise/Hadamard multiplication: <matrix> @ <matrix>
+        """
         if type(multiplicand) == Matrix:
             if self.dim() == multiplicand.dim():
                 ret = Matrix(*self.dim())
@@ -227,36 +256,46 @@ class Matrix:
         else:
             raise ValueError("ERROR: multiplicand must be matrix of same dimension.")
 
-    # Returns the Matrix dimension in a tuple (n_row, n_col), or a specific dimension as an int.
     def dim(self, k = None):
+        """
+        Returns the Matrix dimension in a tuple (n_row, n_col), or a specific dimension as an int.
+        """
         if k == None:
             return self.__dim
         else:
             return self.__dim[k]
 
-    # Returns identity matrix of the same dimensions.
     def identity(self):
+        """
+        Returns identity matrix of the same dimensions.
+        """
         ret = Matrix(self.dim(0), self.dim(1))
         for i in range(min(self.dim(0), self.dim(1))):
             ret[i][i] = 1
         return ret
 
-    # Returns matrix transpose.
     def T(self):
+        """
+        Returns matrix transpose.
+        """
         ret = Matrix(self.dim(1), self.dim(0))
         for i in range(self.dim(0)):
             for j in range(self.dim(1)):
                 ret[j][i] = self[i][j]
         return ret
 
-    # Swaps rows in-place.
     def swap_rows(self, r1, r2):
+        """
+        Swaps rows in-place.
+        """
         row = self[r1]
         self[r1] = self[r2]
         self[r2] = row
 
-    # Returns a rounded copy of the input matrix.
     def r(self, d=4):
+        """
+        Returns a rounded copy of the input matrix.
+        """
         ret = copy.deepcopy(self)
         for i in range(ret.dim(0)):
             for j in range(ret.dim(1)):
