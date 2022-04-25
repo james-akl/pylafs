@@ -4,8 +4,10 @@ import lafs
 
 # IMPLEMENT CHECKS FOR RANK/SINGULARITY & SQUARE MATRICES
 
-# Returns a row echelon form of the input matrix.
 def ref(matrix):
+    """
+    Returns a row echelon form of the input matrix.
+    """
     ret = copy.deepcopy(matrix)
     k_row, k_col = 0, 0
     while k_row < ret.dim(0) and k_col < ret.dim(0):
@@ -27,8 +29,11 @@ def ref(matrix):
             k_col += 1
     return ret
 
-# Returns the reduced row echelon form of the input matrix.
+
 def rref(matrix):
+    """
+    Returns the reduced row echelon form of the input matrix.
+    """
     ret = copy.deepcopy(matrix)
     lead = 0
     n_row = ret.dim(0)
@@ -57,8 +62,10 @@ def rref(matrix):
         lead += 1
     return ret
 
-# Returns the direct inverse via Gaussian elimination of the input matrix.
 def inv(matrix):
+    """
+    Returns the direct inverse via Gaussian elimination of the input matrix.
+    """
     if is_singular(matrix):
         raise ValueError("Input matrix must be invertible.")
 
@@ -95,16 +102,20 @@ def inv(matrix):
         lead += 1
     return ret
 
-# Returns the rank of the input matrix.
 def rank(matrix):
+    """
+    Returns the rank of the input matrix.
+    """
     return sum([x[0] != 0 for x in lafs.matrix_functions.diag(rref(matrix))()])
 
 # Returns the nullity of the input matrix.
 def nullity(matrix):
     return min(lafs.matrix_functions.dim(matrix)) - rank(matrix)
 
-# Returns the solution "x" of the linear system "A * x = b".
 def linsolve(A, b):
+    """
+    Returns the solution "x" of the linear system "A * x = b".
+    """
     return lafs.gauss.inv(A) * b
 
 if __name__ == "__main__":

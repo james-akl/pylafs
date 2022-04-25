@@ -1,11 +1,11 @@
 import lafs
 import copy
 
-# Returns the naive LU decomposition of the matrix.
-# NOTE: Naive LU decomposition is not guaranteed to be stable when it encounters a zero pivot.
-#       In other words, rank-deficient matrix inputs may raise a "ZeroDivisionError".
-#       For full-rank matrices, it is guaranteed to work.
 def lu(matrix):
+    """Returns the naive LU decomposition of the matrix."""
+    # NOTE: Naive LU decomposition is not guaranteed to be stable when it encounters a zero pivot.
+    #       In other words, rank-deficient matrix inputs may raise a "ZeroDivisionError".
+    #       For full-rank matrices, it is guaranteed to work.
     n = matrix.dim(0)
     L = matrix.identity()
     U = copy.deepcopy(matrix)

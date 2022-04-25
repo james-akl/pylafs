@@ -2,8 +2,10 @@ import lafs
 import random
 import math
 
-# Returns an Identity Matrix of dimensions (n, n_col)
 def I(n, n_col = None):
+    """
+    Returns an Identity Matrix of dimensions (n, n_col)
+    """
     if type(n) == lafs.matrix.Matrix:
         n_col = n.dim(1)
         n = n.dim(0)
@@ -14,9 +16,11 @@ def I(n, n_col = None):
         ret[i][i] = 1
     return ret
 
-# Returns a Ones Matrix of dimensions (n, n_col)
-# If input is Matrix A, returns a Ones Matrix of same size.
 def U(n, n_col = None):
+    """
+    Returns a Ones Matrix of dimensions (n, n_col).
+    If input is Matrix A, returns a Ones Matrix of same size.
+    """
     if type(n) == lafs.matrix.Matrix:
         n_col = n.dim(1)
         n = n.dim(0)
@@ -28,8 +32,10 @@ def U(n, n_col = None):
             ret[i][j] = 1
     return ret
 
-# Returns an Zeros Matrix of dimensions (n, n_col)
 def Z(n, n_col = None):
+    """
+    Returns an Zeros Matrix of dimensions (n, n_col)
+    """
     if type(n) == lafs.matrix.Matrix:
         n_col = n.dim(1)
         n = n.dim(0)
@@ -41,8 +47,10 @@ def Z(n, n_col = None):
             ret[i][j] = 0
     return ret
 
-# Returns lower triangular version of input matrix.
 def lower(matrix):
+    """
+    Returns lower triangular version of input matrix.
+    """
     if type(matrix) != lafs.matrix.Matrix:
         raise ValueError("Input must be a Matrix")
     ret = lafs.matrix.Matrix(matrix.dim(0), matrix.dim(1))
@@ -51,8 +59,10 @@ def lower(matrix):
                 ret[i][j] = matrix[i][j]
     return ret
 
-# Returns upper triangular version of input matrix.
 def upper(matrix):
+    """
+    Returns upper triangular version of input matrix.
+    """
     if type(matrix) != lafs.matrix.Matrix:
         raise ValueError("Input must be a Matrix")
     ret = lafs.matrix.Matrix(matrix.dim(0), matrix.dim(1))
@@ -61,8 +71,10 @@ def upper(matrix):
                 ret[i][j] = matrix[i][j]
     return ret
 
-# Temporary function for matrix generation.
 def randm(n_row, n_col=None):
+    """
+    Temporary function for matrix generation.
+    """
     if n_col == None:
         n_col = n_row
     rows = []
@@ -73,16 +85,20 @@ def randm(n_row, n_col=None):
         rows.append(row)
     return lafs.matrix.Matrix(rows)
 
-# Temporary function for vector generation.
 def randv(n):
+    """
+    Temporary function for vector generation.
+    """
     rows = []
     for i in range(n):
         rows.append(random.randint(-10, 10))
     return lafs.vector.Vec(rows)
 
-# Returns rotation matrix about the third axis of angle t.
 def Rz(t):
-    # Assumes default angle unit is in degrees.
+    """
+    Returns rotation matrix about the third axis of angle t.
+    Assumes default angle unit is in degrees.
+    """
     if lafs.unit_angle != 'rad':
         t *= math.pi/180
     return lafs.matrix.Matrix([
@@ -91,9 +107,11 @@ def Rz(t):
                    [           0,           0, 1]
                   ])
 
-# Returns rotation matrix about the second axis of angle t.
 def Ry(t):
-    # Assumes default angle unit is in degrees.
+    """
+    Returns rotation matrix about the second axis of angle t.
+    Assumes default angle unit is in degrees.
+    """
     if lafs.unit_angle != 'rad':
         t *= math.pi/180
     return lafs.matrix.Matrix([
@@ -102,9 +120,11 @@ def Ry(t):
                    [-math.sin(t), 0, math.cos(t)]
                   ])
 
-# Returns rotation matrix about the first axis of angle t.
 def Rx(t):
-    # Assumes default angle unit is in degrees.
+    """
+    Returns rotation matrix about the first axis of angle t.
+    Assumes default angle unit is in degrees.
+    """
     if lafs.unit_angle != 'rad':
         t *= math.pi/180
     return lafs.matrix.Matrix([
