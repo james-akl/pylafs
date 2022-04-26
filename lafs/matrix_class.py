@@ -1,8 +1,6 @@
 import lafs
 import copy
 
-#TODO: replace some ValueError with TypeError
-
 def Mat(*args):
     """
     Shorthand constructor
@@ -78,27 +76,34 @@ class Matrix:
         except ValueError:
             raise ValueError("Input data is invalid.")
 
-    #TODO: Refactor __repr__
     def __repr__(self):
+        """
+        Returns the string representation of the matrix with configurable equal column spacing.
+        """
         ret = ""
         col_width = self.dim(1) * [1]
+        separator_width = 2
 
-        for i in range(self.dim(0)):
-            for j in range(self.dim(1)):
-                if col_width[j] < len(str(self[i][j])):
-                    col_width[j] = len(str(self[i][j]))
+        for row in range(self.dim(0)):
+            for col in range(self.dim(1)):
+                if col_width[col] < len(str(self[row][col])):
+                    col_width[col] = len(str(self[row][col]))
 
-        for i in range(self.dim(0)):
+        for row in range(self.dim(0)):
             ret += "[ "
-            for j in range (self.dim(1)):
-                space_pad = " " * ( col_width[j] - len(str(self[i][j])) )
-                ret += space_pad + str(self[i][j]) + "     "
-            ret += "\b\b\b\b]\n"
+            for col in range (self.dim(1)):
+                space_pad = " " * ( col_width[col] - len(str(self[row][col])) )
+                ret += space_pad + str(self[row][col]) + " " * separator_width
+            ret += "\b" * (separator_width - 1) + "]\n"
 
         return ret
 
-    #TODO: Refactor __call__
     def __call__(self, i=None, j=None):
+        """
+        Returns the entire data in list format when called with Matrix().
+        Returns row i when called with Matrix(i).
+        Returns element (i, j) when called with Matrix(i, j).
+        """
         if i != None and j != None:
             return self[i][j]
         if i != None:
@@ -233,7 +238,7 @@ class Matrix:
         if self.dim(0) != self.dim(1):
             raise ValueError("Matrix must be square for exponentiation.")
         ret = self.identity()   
-        multiplicand = self if n >= 0 else lafs.gauss.inv(self)
+        multiplicand = self if n >= 0 else lafs.matrix_elim.inv(self)
         for k in range(abs(n)):
             ret *= multiplicand
         return ret
@@ -302,9 +307,11 @@ class Matrix:
                 ret[i][j] = round(ret(i,j), d)
         return ret
 
-    #TODO: REFACTOR; SUBMATRIX
-    def sub(self, r1, r2, c1, c2):
-        return Matrix([mat[c1:(c2 + 1)] for mat in self[r1:(r2 + 1)]])
+    def sub(self, i_from, i_to, j_from, j_to):
+        """
+        Returns the submatrix for a specified range of rows and columns (inclusive bounds).
+        """
+        return Matrix([mat[j_from:(j_to + 1)] for mat in self[i_from:(i_to + 1)]])
 
     #TODO: REFACTOR; INNER PRODUCT
     def inner(self, matrix):

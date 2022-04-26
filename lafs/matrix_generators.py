@@ -6,12 +6,12 @@ def I(n, n_col = None):
     """
     Returns an Identity Matrix of dimensions (n, n_col)
     """
-    if type(n) == lafs.matrix.Matrix:
+    if type(n) == lafs.matrix_class.Matrix:
         n_col = n.dim(1)
         n = n.dim(0)
     elif n_col == None:
         n_col = n
-    ret = lafs.matrix.Matrix(n, n_col)
+    ret = lafs.matrix_class.Matrix(n, n_col)
     for i in range(min(n, n_col)):
         ret[i][i] = 1
     return ret
@@ -21,12 +21,12 @@ def U(n, n_col = None):
     Returns a Ones Matrix of dimensions (n, n_col).
     If input is Matrix A, returns a Ones Matrix of same size.
     """
-    if type(n) == lafs.matrix.Matrix:
+    if type(n) == lafs.matrix_class.Matrix:
         n_col = n.dim(1)
         n = n.dim(0)
     elif n_col == None:
         n_col = n
-    ret = lafs.matrix.Matrix(n, n_col)
+    ret = lafs.matrix_class.Matrix(n, n_col)
     for i in range(n):
         for j in range(n_col):
             ret[i][j] = 1
@@ -36,12 +36,12 @@ def Z(n, n_col = None):
     """
     Returns an Zeros Matrix of dimensions (n, n_col)
     """
-    if type(n) == lafs.matrix.Matrix:
+    if type(n) == lafs.matrix_class.Matrix:
         n_col = n.dim(1)
         n = n.dim(0)
     elif n_col == None:
         n_col = n
-    ret = lafs.matrix.Matrix(n, n_col)
+    ret = lafs.matrix_class.Matrix(n, n_col)
     for i in range(n):
         for j in range(n_col):
             ret[i][j] = 0
@@ -51,9 +51,9 @@ def lower(matrix):
     """
     Returns lower triangular version of input matrix.
     """
-    if type(matrix) != lafs.matrix.Matrix:
+    if type(matrix) != lafs.matrix_class.Matrix:
         raise ValueError("Input must be a Matrix")
-    ret = lafs.matrix.Matrix(matrix.dim(0), matrix.dim(1))
+    ret = lafs.matrix_class.Matrix(matrix.dim(0), matrix.dim(1))
     for i in range(matrix.dim(0)):
             for j in range(i + 1):
                 ret[i][j] = matrix[i][j]
@@ -63,9 +63,9 @@ def upper(matrix):
     """
     Returns upper triangular version of input matrix.
     """
-    if type(matrix) != lafs.matrix.Matrix:
+    if type(matrix) != lafs.matrix_class.Matrix:
         raise ValueError("Input must be a Matrix")
-    ret = lafs.matrix.Matrix(matrix.dim(0), matrix.dim(1))
+    ret = lafs.matrix_class.Matrix(matrix.dim(0), matrix.dim(1))
     for i in range(matrix.dim(0)):
             for j in range(i, matrix.dim(1)):
                 ret[i][j] = matrix[i][j]
@@ -83,7 +83,7 @@ def randm(n_row, n_col=None):
         for j in range(n_col):
             row.append(random.randint(-10, 10))
         rows.append(row)
-    return lafs.matrix.Matrix(rows)
+    return lafs.matrix_class.Matrix(rows)
 
 def randv(n):
     """
@@ -101,7 +101,7 @@ def Rz(t):
     """
     if lafs.unit_angle != 'rad':
         t *= math.pi/180
-    return lafs.matrix.Matrix([
+    return lafs.matrix_class.Matrix([
                    [math.cos(t), -math.sin(t), 0],
                    [math.sin(t),  math.cos(t), 0],
                    [           0,           0, 1]
@@ -114,7 +114,7 @@ def Ry(t):
     """
     if lafs.unit_angle != 'rad':
         t *= math.pi/180
-    return lafs.matrix.Matrix([
+    return lafs.matrix_class.Matrix([
                    [ math.cos(t), 0, math.sin(t)],
                    [           0, 1,           0],
                    [-math.sin(t), 0, math.cos(t)]
@@ -127,7 +127,7 @@ def Rx(t):
     """
     if lafs.unit_angle != 'rad':
         t *= math.pi/180
-    return lafs.matrix.Matrix([
+    return lafs.matrix_class.Matrix([
                    [1,           0,            0],
                    [0, math.cos(t), -math.sin(t)],
                    [0, math.sin(t),  math.cos(t)]

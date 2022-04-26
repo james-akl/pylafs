@@ -1,4 +1,4 @@
-from lafs.matrix import Matrix
+from lafs.matrix_class import Matrix
 import lafs
 import copy
 
@@ -8,7 +8,7 @@ def dim(matrix, k = None):
     """
     Returns the dimension of the input matrix.
     """
-    if type(matrix) == lafs.matrix.Matrix:
+    if type(matrix) == lafs.matrix_class.Matrix:
         return matrix.dim(k)
     elif type(matrix) == int or type(matrix) == float:
         return 1
@@ -19,7 +19,7 @@ def transpose(matrix):
     """
     Returns the transpose of the input matrix.
     """
-    if type(matrix) == lafs.matrix.Matrix:
+    if type(matrix) == lafs.matrix_class.Matrix:
         return matrix.T()
     elif type(matrix) == int or type(matrix) == float:
         return matrix
@@ -30,7 +30,7 @@ def trace(matrix):
     """
     Returns the trace of the input square matrix.
     """
-    if type(matrix) == lafs.matrix.Matrix:
+    if type(matrix) == lafs.matrix_class.Matrix:
         if matrix.dim(0) == matrix.dim(1):
             ret = 0
             for k in range(matrix.dim(0)):
@@ -47,7 +47,7 @@ def total(matrix):
     """
     Returns the sum total of all input matrix elements.
     """
-    if type(matrix) == lafs.matrix.Matrix:
+    if type(matrix) == lafs.matrix_class.Matrix:
         ret = 0
         for i in range(matrix.dim(0)):
             for j in range(matrix.dim(1)):
@@ -63,13 +63,13 @@ def diag(matrix):
     Returns vector of the input matrix diagonal elements.
     """
     diag = []
-    if type(matrix) == lafs.matrix.Matrix or type(matrix) == lafs.vector.Vector:
+    if type(matrix) == lafs.matrix_class.Matrix or type(matrix) == lafs.vector.Vector:
         for k in range(min(matrix.dim(0), matrix.dim(1))):
            diag.append([matrix[k][k]])
-        ret = lafs.matrix.Matrix(diag)
+        ret = lafs.matrix_class.Matrix(diag)
         return ret
     elif type(matrix) == int or type(matrix) == float:
-        return lafs.matrix.Matrix([[matrix]])
+        return lafs.matrix_class.Matrix([[matrix]])
     else:
         raise ValueError("ERROR: Input diag not defined.")
 
@@ -85,7 +85,7 @@ def det(matrix):
 
     else:
         try:
-            [L, U] = lafs.decomps.lu(matrix)
+            [L, U] = lafs.matrix_decomps.lu(matrix)
             return det(L) * det(U)
         except ZeroDivisionError:
             return 0
@@ -104,7 +104,7 @@ def is_singular(matrix):
     """
     if not is_square(matrix):
         raise ValueError("Input matrix must be square.")
-    return lafs.gauss.rank(matrix) < min(dim(matrix))
+    return lafs.matrix_elim.rank(matrix) < min(dim(matrix))
 
 def is_invertible(matrix):
     """

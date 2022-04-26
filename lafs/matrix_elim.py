@@ -108,15 +108,17 @@ def rank(matrix):
     """
     return sum([x[0] != 0 for x in lafs.matrix_functions.diag(rref(matrix))()])
 
-# Returns the nullity of the input matrix.
 def nullity(matrix):
+    """
+    Returns the nullity of the input matrix.
+    """
     return min(lafs.matrix_functions.dim(matrix)) - rank(matrix)
 
 def linsolve(A, b):
     """
     Returns the solution "x" of the linear system "A * x = b".
     """
-    return lafs.gauss.inv(A) * b
+    return lafs.matrix_elim.inv(A) * b
 
 if __name__ == "__main__":
     pass
