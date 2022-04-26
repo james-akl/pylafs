@@ -29,7 +29,6 @@ def ref(matrix):
             k_col += 1
     return ret
 
-
 def rref(matrix):
     """
     Returns the reduced row echelon form of the input matrix.

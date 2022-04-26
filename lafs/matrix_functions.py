@@ -4,12 +4,12 @@ import copy
 
 # The "ANS" system is Python's "_" in the interpreter.
 
-def dim(matrix, k = None):
+def dim(matrix, dim_index=None):
     """
     Returns the dimension of the input matrix.
     """
     if type(matrix) == lafs.matrix_class.Matrix:
-        return matrix.dim(k)
+        return matrix.dim(dim_index)
     elif type(matrix) == int or type(matrix) == float:
         return 1
     else:
